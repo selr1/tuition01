@@ -15,4 +15,4 @@ java tuitionsystem01.TuitionSystem
 ```
 OR
 
-Download [Folder](TuitionSystem01/src/tuitionsystem01)
+Download [this folder](TuitionSystem01/src/tuitionsystem01) , copy the codes into your IDE
