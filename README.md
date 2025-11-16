@@ -13,6 +13,6 @@ cd 2025-OOP-ASGMNT-1/TuitionSystem01/src
 javac tuitionsystem01/*java
 java tuitionsystem01.TuitionSystem
 ```
-OR
+### OR
 
 Download [this folder](TuitionSystem01/src/tuitionsystem01) , copy the codes into your IDE
