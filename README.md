@@ -1,4 +1,4 @@
-For Madam, Code by Iman & Iman Daniel
+For Madam, Code by Iman & Iman Daniel. Github Profile is Iman's
 ## To run;
 
 Copy and paste command below in terminal (CMD)
