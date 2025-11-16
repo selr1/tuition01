@@ -15,4 +15,4 @@ java tuitionsystem01.TuitionSystem
 ```
 OR
 
-Download [Folder](2025-OOP-ASGMNT-1/src/tuitionsystem01)
+Download [Folder](TuitionSystem01/src/tuitionsystem01)
