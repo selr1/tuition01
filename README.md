@@ -4,7 +4,7 @@ Copy and paste command below in terminal (CMD)
 
 ```bash
 :: Install Java (if not installed)
-winget install Oracle.JavaDevelopmentKit
+winget install Microsoft.OpenJDK.17
 
 :: Install Git (if not installed)
 winget install Git.Git
