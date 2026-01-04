@@ -1,0 +1,6 @@
+[
+  { "day": 1, "startHour": 9, "duration": 2, "subject": "Object Oriented Programming", "tutor": "Dr. Iman" },
+  { "day": 3, "startHour": 14, "duration": 2, "subject": "Discrete Structures", "tutor": "Prof. Iman" },
+  { "day": 5, "startHour": 10, "duration": 3, "subject": "System Analysis and Design", "tutor": "Mr. Iman" },
+  { "day": 2, "startHour": 11, "duration": 1, "subject": "UNGS", "tutor": "Ms. Nur Iman" }
+]
