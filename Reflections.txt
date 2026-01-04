@@ -1,0 +1,3 @@
+github repo link : https://github.com/selr1/tuition01 . I succesfully made the login ui for our system, even though for now only students login is accepted and also the main screen ui
+which is the timetable. What i find dificult the most is the styling , thats why i also uploaded the no styling version on my github repo.
+I also uses only 2 .json files as simple database for login credentials and timetable details, so users can edit the files themselves and view the changes directly and easily. 
