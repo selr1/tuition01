@@ -1,4 +1,4 @@
-package tuitionsystem01;
+package tuition;
 
 import java.util.ArrayList;
 import java.util.List;

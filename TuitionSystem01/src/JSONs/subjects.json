@@ -1,0 +1,32 @@
+[
+    {
+        "id": "MATH01",
+        "name": "Mathematics",
+        "fee": "120.00",
+        "capacity": "20",
+        "day": "1",
+        "start": "14",
+        "duration": "2",
+        "tutorId": "tutor"
+    },
+    {
+        "id": "ENG01",
+        "name": "English",
+        "fee": "100.00",
+        "capacity": "15",
+        "day": "3",
+        "start": "16",
+        "duration": "1",
+        "tutorId": "tutor"
+    },
+    {
+        "id": "PHY01",
+        "name": "Physics",
+        "fee": "130.00",
+        "capacity": "10",
+        "day": "5",
+        "start": "10",
+        "duration": "2",
+        "tutorId": "tutor"
+    }
+]

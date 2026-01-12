@@ -1,4 +1,4 @@
-package tuitionsystem01;
+package tuition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ public class Student extends User {
     // Composition: timetable belongs to student
     private Timetable timetable;
 
-    public Student(String name, String studentID, String phone, String level, String parentContact) {
-        super(name);
+    public Student(String name, String username, String studentID, String phone, String level, String parentContact) {
+        super(name, username);
         this.studentID = "S_" + studentID;
         this.phone = phone;
         this.level = level;

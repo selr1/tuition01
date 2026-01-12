@@ -1,4 +1,4 @@
-package tuitionsystem01;
+package tuition;
 
 import java.time.LocalDate;
 
