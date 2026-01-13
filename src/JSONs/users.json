@@ -1,0 +1,44 @@
+[
+    {
+        "username": "student",
+        "password": "123",
+        "role": "Student",
+        "id": "S_12345",
+        "name": "Student hensem",
+        "phone": "12345678",
+        "level": "Primary 1",
+        "parent": "Parent Name"
+    },
+    {
+        "username": "student2",
+        "password": "123",
+        "role": "Student",
+        "id": "s_12321",
+        "name": "ipman",
+        "phone": "12345678",
+        "level": "Primary 1",
+        "parent": "Parent Name"
+    },
+    {
+        "username": "tutor",
+        "password": "123",
+        "role": "Tutor"
+    },
+    {
+        "username": "rafizi",
+        "password": "123",
+        "role": "Tutor"
+    },
+    {
+        "username": "afiq",
+        "password": "123",
+        "role": "Student",
+        "id": "S_s123",
+        "name": "afiq",
+        "phone": "123",
+        "level": "Primary 1-3",
+        "parent": "123"
+    }
+,
+{"username":"211", "password":"123", "role":"Student", "id":"S_123", "name":"211", "phone":"123", "level":"Primary 4-6", "parent":"123"}
+]
