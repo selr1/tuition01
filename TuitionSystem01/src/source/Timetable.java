@@ -1,4 +1,4 @@
-package tuition;
+package source;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Timetable {
 
         public String getDisplay() {
             return String.format("%s %s | %s | Tutor: %s | Loc: %s",
-                    day, time, subject.getName(), (tutor == null ? "TBD" : tutor.getName()), location);
+                    day, time, subject.getSubjectName(), (tutor == null ? "TBD" : tutor.getFullName()), location);
         }
     }
 

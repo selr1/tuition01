@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Test Student",
+    "username": "student",
+    "password": "123",
+    "role": "Student",
+    "phone": "12345678",
+    "level": "Primary 1",
+    "id": "S_12345",
+    "parent": "Parent Name"
+  },
+  {
+    "name": "Test Tutor",
+    "username": "tutor",
+    "password": "123",
+    "role": "Tutor",
+    "tutorID": "T_001",
+    "qualification": "PhD",
+    "experience": 5
+  },
+  {
+    "name": "hello",
+    "username": "hello",
+    "password": "123",
+    "role": "Student",
+    "phone": "123",
+    "level": "Primary 1-3",
+    "id": "S_123",
+    "parent": "123"
+  },
+  {
+    "name": "ikan",
+    "username": "ikan",
+    "password": "123",
+    "role": "Student",
+    "phone": "011",
+    "level": "Primary 4-6",
+    "id": "S_sw",
+    "parent": "011"
+  },
+  {
+    "name": "yahoo",
+    "username": "yahoo",
+    "password": "123",
+    "role": "Student",
+    "phone": "123",
+    "level": "Primary 1-3",
+    "id": "S_yahoo",
+    "parent": "123"
+  }
+]

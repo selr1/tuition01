@@ -1,90 +1,156 @@
 package gui;
-import tuition.*;
+import source.*;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class StudentRegistrationView {
 
     public Parent getView(Main mainApp) {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25));
+        VBox root = new VBox(20);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: #F5F5F5;");
+
+        VBox card = new VBox(20);
+        card.setMaxWidth(500);
+        card.setPadding(new Insets(40));
+        card.setStyle("-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-radius: 8;");
+        card.setAlignment(Pos.CENTER);
 
         Label header = new Label("Register New Student");
-        header.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+        header.setFont(Font.font("Segoe UI", FontWeight.BOLD, 24));
+        header.setTextFill(Color.web("#333333"));
 
-        Label idLabel = new Label("Student ID:");
+        GridPane formGrid = new GridPane();
+        formGrid.setHgap(15);
+        formGrid.setVgap(15);
+        formGrid.setAlignment(Pos.CENTER);
+
+        Label idLabel = createLabel("Student ID");
         TextField idField = new TextField();
         idField.setPromptText("S202601");
+        styleControl(idField);
 
-        Label nameLabel = new Label("Name:");
+        Label nameLabel = createLabel("Name");
         TextField nameField = new TextField();
+        styleControl(nameField);
 
-        Label userLabel = new Label("Username:");
+        Label userLabel = createLabel("Username");
         TextField userField = new TextField();
+        styleControl(userField);
 
-        Label passLabel = new Label("Password:");
+        Label passLabel = createLabel("Password");
         PasswordField passField = new PasswordField();
+        styleControl(passField);
 
-        Label phoneLabel = new Label("Phone:");
+        Label phoneLabel = createLabel("Phone");
         TextField phoneField = new TextField();
+        styleControl(phoneField);
         
-        Label levelLabel = new Label("Level:");
+        Label levelLabel = createLabel("Level");
         ComboBox<String> levelBox = new ComboBox<>();
         levelBox.getItems().addAll("Primary 1-3", "Primary 4-6", "Secondary Lower", "Secondary Upper");
+        levelBox.setMaxWidth(Double.MAX_VALUE);
+        styleControl(levelBox);
 
-        Label parentLabel = new Label("Parent Contact:");
+        Label parentLabel = createLabel("Parent Contact");
         TextField parentField = new TextField();
+        styleControl(parentField);
+
+        formGrid.add(idLabel, 0, 0);
+        formGrid.add(idField, 1, 0);
+        formGrid.add(nameLabel, 0, 1);
+        formGrid.add(nameField, 1, 1);
+        formGrid.add(userLabel, 0, 2);
+        formGrid.add(userField, 1, 2);
+        formGrid.add(passLabel, 0, 3);
+        formGrid.add(passField, 1, 3);
+        formGrid.add(phoneLabel, 0, 4);
+        formGrid.add(phoneField, 1, 4);
+        formGrid.add(levelLabel, 0, 5);
+        formGrid.add(levelBox, 1, 5);
+        formGrid.add(parentLabel, 0, 6);
+        formGrid.add(parentField, 1, 6);
+
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(30);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(70);
+        formGrid.getColumnConstraints().addAll(col1, col2);
 
         Button saveBtn = new Button("Register");
-        Button backBtn = new Button("Back");
+        saveBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-cursor: hand;");
+        saveBtn.setMaxWidth(Double.MAX_VALUE);
+        
+        Button backBtn = new Button("Back to Login");
+        backBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #666666; -fx-cursor: hand;");
+        backBtn.setMaxWidth(Double.MAX_VALUE);
+
         Label statusLabel = new Label();
+        statusLabel.setFont(Font.font("Segoe UI", 12));
 
         saveBtn.setOnAction(e -> {
             if(idField.getText().isEmpty() || levelBox.getValue() == null || passField.getText().isEmpty() || userField.getText().isEmpty() || nameField.getText().isEmpty()) {
                 statusLabel.setText("Missing fields!");
-                statusLabel.setStyle("-fx-text-fill: red;");
+                statusLabel.setTextFill(Color.RED);
             } else {
                 Student s = new Student(
                     nameField.getText(),
                     userField.getText(),
+                    passField.getText(),
                     idField.getText(), 
                     phoneField.getText(), 
                     levelBox.getValue(), 
                     parentField.getText()
                 );
-                SimpleDataManager.saveStudent(s, userField.getText(), passField.getText());
+                boolean success = DataManager.getInstance().saveUser(s);
                 
-                statusLabel.setText("Registered!");
-                statusLabel.setStyle("-fx-text-fill: green;");
-                idField.clear();
-                nameField.clear();
-                userField.clear();
-                passField.clear();
-                phoneField.clear();
-                parentField.clear();
+                if (success) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Registration Successful");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Account created! Redirecting to login...");
+                    alert.showAndWait();
+                    mainApp.showLogin();
+                } else {
+                    statusLabel.setText("Registration Failed. Try again.");
+                    statusLabel.setTextFill(Color.RED);
+                }
             }
         });
 
         backBtn.setOnAction(e -> mainApp.showLogin());
 
-        grid.add(header, 0, 0, 2, 1);
-        grid.add(idLabel, 0, 1); grid.add(idField, 1, 1);
-        grid.add(nameLabel, 0, 2); grid.add(nameField, 1, 2);
-        grid.add(userLabel, 0, 3); grid.add(userField, 1, 3);
-        grid.add(passLabel, 0, 4); grid.add(passField, 1, 4);
-        grid.add(phoneLabel, 0, 5); grid.add(phoneField, 1, 5);
-        grid.add(levelLabel, 0, 6); grid.add(levelBox, 1, 6);
-        grid.add(parentLabel, 0, 7); grid.add(parentField, 1, 7);
-        grid.add(backBtn, 0, 8); grid.add(saveBtn, 1, 8);
-        grid.add(statusLabel, 1, 9);
+        card.getChildren().addAll(
+            header, new Separator(),
+            formGrid,
+            new Region(), saveBtn, backBtn, statusLabel
+        );
 
-        return grid;
+        ScrollPane scroll = new ScrollPane(card);
+        scroll.setFitToWidth(true);
+        scroll.setStyle("-fx-background: #F5F5F5; -fx-border-color: transparent;");
+        scroll.setPadding(new Insets(20));
+        
+        root.getChildren().add(scroll);
+
+        return root;
+    }
+
+    private Label createLabel(String text) {
+        Label l = new Label(text);
+        l.setFont(Font.font("Segoe UI", 12));
+        l.setTextFill(Color.web("#666666"));
+        return l;
+    }
+
+    private void styleControl(Control c) {
+        c.setStyle("-fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 4; -fx-padding: 8;");
     }
 }

@@ -1,69 +1,118 @@
 package gui;
-import tuition.*;
+import source.*;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class LoginView {
 
     public Parent getView(Main mainApp) {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25));
+        VBox root = new VBox(20);
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: #F5F5F5;");
+
+        VBox card = new VBox(20);
+        card.setMaxWidth(400);
+        card.setPadding(new Insets(40));
+        card.setStyle("-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-radius: 8;");
+        card.setAlignment(Pos.CENTER);
 
         Label title = new Label("Tuition01 Login");
-        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-        grid.add(title, 0, 0, 2, 1);
+        title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 24));
+        title.setTextFill(Color.web("#333333"));
 
-        Label roleLabel = new Label("Role:");
-        grid.add(roleLabel, 0, 1);
-        
+        Label subtitle = new Label("Welcome back");
+        subtitle.setFont(Font.font("Segoe UI", 14));
+        subtitle.setTextFill(Color.web("#666666"));
+
+        GridPane formGrid = new GridPane();
+        formGrid.setHgap(15);
+        formGrid.setVgap(15);
+        formGrid.setAlignment(Pos.CENTER);
+
+        Label roleLabel = new Label("Login as");
+        roleLabel.setFont(Font.font("Segoe UI", 12));
+        roleLabel.setTextFill(Color.web("#666666"));
+
         ComboBox<String> roleSelect = new ComboBox<>();
         roleSelect.getItems().addAll("Student", "Tutor");
         roleSelect.setValue("Student");
-        grid.add(roleSelect, 1, 1);
+        roleSelect.setMaxWidth(Double.MAX_VALUE);
+        styleControl(roleSelect);
 
-        Label userLabel = new Label("Username or ID:");
-        grid.add(userLabel, 0, 2);
+        Label userLabel = new Label("Username");
+        userLabel.setFont(Font.font("Segoe UI", 12));
+        userLabel.setTextFill(Color.web("#666666"));
 
         TextField userField = new TextField();
-        grid.add(userField, 1, 2);
+        userField.setPromptText("Enter username");
+        styleControl(userField);
 
-        Label passLabel = new Label("Password:");
-        grid.add(passLabel, 0, 3);
+        Label passLabel = new Label("Password");
+        passLabel.setFont(Font.font("Segoe UI", 12));
+        passLabel.setTextFill(Color.web("#666666"));
 
         PasswordField passField = new PasswordField();
-        grid.add(passField, 1, 3);
+        passField.setPromptText("Enter password");
+        styleControl(passField);
+
+        formGrid.add(roleLabel, 0, 0);
+        formGrid.add(roleSelect, 1, 0);
+        formGrid.add(userLabel, 0, 1);
+        formGrid.add(userField, 1, 1);
+        formGrid.add(passLabel, 0, 2);
+        formGrid.add(passField, 1, 2);
+
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(30);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(70);
+        formGrid.getColumnConstraints().addAll(col1, col2);
 
         Button loginBtn = new Button("Login");
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(loginBtn);
-        grid.add(hbBtn, 1, 4);
+        loginBtn.setMaxWidth(Double.MAX_VALUE);
+        loginBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-cursor: hand;");
+        
+        loginBtn.setOnMouseEntered(e -> loginBtn.setStyle("-fx-background-color: #555555; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-cursor: hand;"));
+        loginBtn.setOnMouseExited(e -> loginBtn.setStyle("-fx-background-color: #333333; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-cursor: hand;"));
 
         Hyperlink registerLink = new Hyperlink("Create an account");
-        grid.add(registerLink, 1, 5);
+        registerLink.setTextFill(Color.web("#666666"));
+        registerLink.setBorder(Border.EMPTY);
+        registerLink.setPadding(new Insets(5, 0, 0, 0));
 
         loginBtn.setOnAction(e -> {
             String u = userField.getText();
             String p = passField.getText();
             String r = roleSelect.getValue();
 
-            String sessionId = SimpleDataManager.authenticate(u, p, r);
-            if (sessionId != null) {
-                if (r.equalsIgnoreCase("Student")) {
-                    mainApp.showStudentDashboard(sessionId);
+            User user = DataManager.getInstance().authenticate(u, p);
+            
+            if (user != null) {
+                // Check if role matches
+                if (user.getRole().equalsIgnoreCase(r)) {
+                    if (r.equalsIgnoreCase("Student")) {
+                        mainApp.showStudentDashboard(user.getUserId());
+                    } else {
+                        mainApp.showTutorDashboard(user.getUserId());
+                    }
                 } else {
-                    mainApp.showTutorDashboard(sessionId);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Login Failed");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid Role for this user.");
+                    alert.showAndWait();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Login Failed");
+                alert.setHeaderText(null);
                 alert.setContentText("Invalid Credentials");
                 alert.showAndWait();
             }
@@ -71,6 +120,18 @@ public class LoginView {
 
         registerLink.setOnAction(e -> mainApp.showRegistration());
 
-        return grid;
+        card.getChildren().addAll(
+            title, subtitle, new Separator(),
+            formGrid,
+            new Region(), loginBtn, registerLink
+        );
+
+        root.getChildren().add(card);
+
+        return root;
+    }
+
+    private void styleControl(Control c) {
+        c.setStyle("-fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 4; -fx-padding: 8;");
     }
 }

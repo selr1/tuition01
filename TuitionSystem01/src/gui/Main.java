@@ -1,5 +1,5 @@
 package gui;
-import tuition.*;
+import source.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
