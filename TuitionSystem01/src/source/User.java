@@ -12,8 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 )
 @JsonSubTypes({
     @JsonSubTypes.Type(value = Student.class, name = "Student"),
-    @JsonSubTypes.Type(value = Tutor.class, name = "Tutor")
+    @JsonSubTypes.Type(value = Tutor.class, name = "Tutor"),
+    @JsonSubTypes.Type(value = Admin.class, name = "Admin")
 })
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class User {
     protected String userId; // Mapped to 'id' or 'tutorID' in subclasses
     protected String fullName; // Mapped to 'name'
@@ -33,6 +35,10 @@ public abstract class User {
 
     // Abstract method to get the ID, as JSON keys differ (id vs tutorID)
     public abstract String getUserId();
+    
+    public boolean checkPassword(String input) {
+        return this.password != null && this.password.equals(input);
+    }
 
     @JsonProperty("name")
     public String getFullName() {

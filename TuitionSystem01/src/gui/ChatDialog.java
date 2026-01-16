@@ -29,6 +29,23 @@ public class ChatDialog {
     }
 
     public void show() {
+        // Security Check: Ensure current user is authorized to view this enrollment
+        boolean authorized = false;
+        if (currentUser instanceof Student) {
+            authorized = currentUser.getUserId().equals(enrollment.getStudentId());
+        } else if (currentUser instanceof Tutor) {
+            // Check if tutor owns the subject
+            if (enrollment.getSubject() != null) {
+                authorized = currentUser.getUserId().equals(enrollment.getSubject().getTutorId());
+            }
+        }
+        
+        if (!authorized) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Unauthorized access to this discussion.");
+            alert.showAndWait();
+            return;
+        }
+
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Discussion - " + (enrollment.getSubject() != null ? enrollment.getSubject().getSubjectName() : enrollment.getSubjectId()));

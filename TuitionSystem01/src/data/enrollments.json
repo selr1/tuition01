@@ -1,41 +1,34 @@
 [ {
-  "status" : "Active",
-  "enrollmentID" : "ENR1",
+  "status" : "Approved",
+  "enrollmentID" : "ENR3",
   "studentId" : "S_12345",
   "subjectId" : "MATH01",
   "tutorName" : "Test Tutor",
-  "dateEnrolled" : [ 2026, 1, 15 ],
+  "dateEnrolled" : [ 2026, 1, 16 ],
+  "day" : 2,
+  "start" : 14,
+  "duration" : 2,
+  "progress" : null
+}, {
+  "status" : "Approved",
+  "enrollmentID" : "ENR4",
+  "studentId" : "S_12345",
+  "subjectId" : "OOP",
+  "tutorName" : "Test Tutor",
+  "dateEnrolled" : [ 2026, 1, 16 ],
   "day" : 1,
   "start" : 8,
-  "duration" : 2
+  "duration" : 2,
+  "progress" : null
 }, {
-  "status" : "Pending",
-  "enrollmentID" : "ENR1",
+  "status" : "Approved",
+  "enrollmentID" : "ENR5",
   "studentId" : "S_12345",
   "subjectId" : "ENG01",
   "tutorName" : "Test Tutor",
-  "dateEnrolled" : [ 2026, 1, 14 ],
-  "day" : 0,
-  "start" : 0,
-  "duration" : 0
-}, {
-  "status" : "Active",
-  "enrollmentID" : "ENR1",
-  "studentId" : "S_12345",
-  "subjectId" : "MATH01",
-  "tutorName" : "Test Tutor",
-  "dateEnrolled" : [ 2026, 1, 15 ],
+  "dateEnrolled" : [ 2026, 1, 16 ],
   "day" : 1,
-  "start" : 8,
-  "duration" : 2
-}, {
-  "status" : "Pending",
-  "enrollmentID" : "ENR1",
-  "studentId" : "S_123",
-  "subjectId" : "ENG01",
-  "tutorName" : "Test Tutor",
-  "dateEnrolled" : [ 2026, 1, 15 ],
-  "day" : 0,
-  "start" : 0,
-  "duration" : 0
+  "start" : 10,
+  "duration" : 1,
+  "progress" : null
 } ]

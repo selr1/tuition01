@@ -1,51 +1,58 @@
-[
-  {
-    "name": "Test Student",
-    "username": "student",
-    "password": "123",
-    "role": "Student",
-    "phone": "12345678",
-    "level": "Primary 1",
-    "id": "S_12345",
-    "parent": "Parent Name"
-  },
-  {
-    "name": "Test Tutor",
-    "username": "tutor",
-    "password": "123",
-    "role": "Tutor",
-    "tutorID": "T_001",
-    "qualification": "PhD",
-    "experience": 5
-  },
-  {
-    "name": "hello",
-    "username": "hello",
-    "password": "123",
-    "role": "Student",
-    "phone": "123",
-    "level": "Primary 1-3",
-    "id": "S_123",
-    "parent": "123"
-  },
-  {
-    "name": "ikan",
-    "username": "ikan",
-    "password": "123",
-    "role": "Student",
-    "phone": "011",
-    "level": "Primary 4-6",
-    "id": "S_sw",
-    "parent": "011"
-  },
-  {
-    "name": "yahoo",
-    "username": "yahoo",
-    "password": "123",
-    "role": "Student",
-    "phone": "123",
-    "level": "Primary 1-3",
-    "id": "S_yahoo",
-    "parent": "123"
-  }
-]
+[ {
+  "userId" : "S_12345",
+  "username" : "student",
+  "password" : "123",
+  "role" : "Student",
+  "phone" : "12345678",
+  "level" : "Primary 1-3",
+  "name" : "Test Student",
+  "id" : "S_12345",
+  "parent" : "01112"
+}, {
+  "userId" : "T_001",
+  "username" : "tutor",
+  "password" : "123",
+  "role" : "Tutor",
+  "tutorID" : "T_001",
+  "qualification" : "PhD",
+  "experience" : 5,
+  "name" : "Test Tutor"
+}, {
+  "userId" : "S_123",
+  "username" : "hello",
+  "password" : "123",
+  "role" : "Student",
+  "phone" : "123",
+  "level" : "Primary 1-3",
+  "name" : "hello",
+  "id" : "S_123",
+  "parent" : "123"
+}, {
+  "userId" : "S_sw",
+  "username" : "ikan",
+  "password" : "123",
+  "role" : "Student",
+  "phone" : "011",
+  "level" : "Primary 4-6",
+  "name" : "ikan",
+  "id" : "S_sw",
+  "parent" : "011"
+}, {
+  "userId" : "S_yahoo",
+  "username" : "yahoo",
+  "password" : "123",
+  "role" : "Student",
+  "phone" : "123",
+  "level" : "Primary 1-3",
+  "name" : "yahoo",
+  "id" : "S_yahoo",
+  "parent" : "123"
+}, {
+  "name" : "Super Admin",
+  "username" : "admin",
+  "password" : "123",
+  "id" : "A001",
+  "phone" : "0123456789",
+  "userId" : "A001",
+  "role" : "Admin"
+} ]

@@ -13,8 +13,7 @@ import javafx.scene.text.FontWeight;
 public class StudentRegistrationView {
 
     public Parent getView(Main mainApp) {
-        VBox root = new VBox(20);
-        root.setAlignment(Pos.CENTER);
+        StackPane root = new StackPane();
         root.setStyle("-fx-background-color: #F5F5F5;");
 
         VBox card = new VBox(20);
@@ -133,10 +132,16 @@ public class StudentRegistrationView {
             new Region(), saveBtn, backBtn, statusLabel
         );
 
-        ScrollPane scroll = new ScrollPane(card);
+        // Wrapper to center the card within the ScrollPane
+        StackPane contentWrapper = new StackPane(card);
+        contentWrapper.setAlignment(Pos.CENTER);
+        contentWrapper.setPadding(new Insets(20));
+        contentWrapper.setStyle("-fx-background-color: transparent;");
+
+        ScrollPane scroll = new ScrollPane(contentWrapper);
         scroll.setFitToWidth(true);
-        scroll.setStyle("-fx-background: #F5F5F5; -fx-border-color: transparent;");
-        scroll.setPadding(new Insets(20));
+        scroll.setFitToHeight(true); // Ensures content wrapper fills the viewport height for centering
+        scroll.setStyle("-fx-background: #F5F5F5; -fx-border-color: transparent; -fx-background-color: transparent;");
         
         root.getChildren().add(scroll);
 

@@ -43,7 +43,10 @@ public class Main extends Application {
     }
 
     public void showTutorDashboard(String tutorId) {
-        TutorDashboardView view = new TutorDashboardView();
-        mainScene.setRoot(view.getView(this, tutorId));
+        primaryStage.setScene(new Scene(new TutorDashboardView().getView(this, tutorId), 1000, 700));
+    }
+    
+    public void showAdminDashboard(String adminId) {
+        primaryStage.setScene(new Scene(new AdminDashboardView().getView(this, adminId), 1000, 700));
     }
 }

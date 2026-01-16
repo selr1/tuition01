@@ -10,6 +10,10 @@ public class Enrollment {
 
     private static int counter = 1;
 
+    public static void setCounter(int count) {
+        counter = count;
+    }
+
     @JsonProperty("enrollmentID")
     private String enrollmentId;
     @JsonIgnore
@@ -35,6 +39,9 @@ public class Enrollment {
     private int startTime; // Hour of day
     @JsonProperty("duration")
     private int duration; // In hours
+    
+    @JsonProperty("progress")
+    private String progress; // Tutor notes/progress report
 
 
     public Enrollment() {
@@ -132,5 +139,13 @@ public class Enrollment {
     @JsonIgnore
     public int getEndTime() {
         return startTime + duration;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
     }
 }

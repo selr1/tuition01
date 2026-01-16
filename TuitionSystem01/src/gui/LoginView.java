@@ -41,7 +41,7 @@ public class LoginView {
         roleLabel.setTextFill(Color.web("#666666"));
 
         ComboBox<String> roleSelect = new ComboBox<>();
-        roleSelect.getItems().addAll("Student", "Tutor");
+        roleSelect.getItems().addAll("Student", "Tutor", "Admin");
         roleSelect.setValue("Student");
         roleSelect.setMaxWidth(Double.MAX_VALUE);
         styleControl(roleSelect);
@@ -96,17 +96,30 @@ public class LoginView {
             
             if (user != null) {
                 // Check if role matches
-                if (user.getRole().equalsIgnoreCase(r)) {
-                    if (r.equalsIgnoreCase("Student")) {
+                if (user != null && user.checkPassword(p)) { // Assuming checkPassword exists and 'p' is the password
+                    if (user instanceof Student) {
                         mainApp.showStudentDashboard(user.getUserId());
-                    } else {
+                    } else if (user instanceof Tutor) {
                         mainApp.showTutorDashboard(user.getUserId());
+                    } else if (user instanceof Admin) {
+                        mainApp.showAdminDashboard(user.getUserId());
+                    } else {
+                        // This case handles other user types not explicitly covered
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Login Failed");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Unsupported user type.");
+                        alert.showAndWait();
                     }
                 } else {
+                    // This block would be reached if authenticate returned a user but checkPassword failed,
+                    // which is redundant if authenticate already verifies password.
+                    // Or if user is null, but that's handled by the outer if.
+                    // Assuming this is for a secondary password check or if authenticate returns user even on wrong password.
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Login Failed");
                     alert.setHeaderText(null);
-                    alert.setContentText("Invalid Role for this user.");
+                    alert.setContentText("Invalid Credentials"); // Changed from "Invalid Role for this user."
                     alert.showAndWait();
                 }
             } else {

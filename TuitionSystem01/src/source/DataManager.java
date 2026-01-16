@@ -48,7 +48,21 @@ public class DataManager {
         
         // Cross-reference logic: Link objects
         linkData();
+        
+        // Initialize Enrollment counter to avoid ID collisions
+        int maxId = 0;
+        for (Enrollment e : enrollments) {
+            try {
+                String idPart = e.getEnrollmentId().replace("ENR", "");
+                int id = Integer.parseInt(idPart);
+                if (id > maxId) maxId = id;
+            } catch (NumberFormatException ex) {
+                // Ignore malformed IDs
+            }
+        }
+        Enrollment.setCounter(maxId + 1);
     }
+
     
     private <T> List<T> loadList(String path, TypeReference<List<T>> typeRef) {
         try {
@@ -129,8 +143,35 @@ public class DataManager {
     }
     
     public boolean saveUser(User user) {
+        // Check for duplicate ID or Username
+        boolean exists = users.stream()
+                .anyMatch(u -> u.getUsername().equalsIgnoreCase(user.getUsername()) || 
+                               (u instanceof Student && user instanceof Student && ((Student)u).getUserId().equalsIgnoreCase(((Student)user).getUserId())) ||
+                               (u instanceof Tutor && user instanceof Tutor && ((Tutor)u).getUserId().equalsIgnoreCase(((Tutor)user).getUserId())));
+        
+        if (exists) {
+            System.out.println("Duplicate user prevented.");
+            return false;
+        }
+        
         users.add(user);
         return saveData(USERS_FILE, users);
+    }
+    
+    public boolean updateUser(User user) {
+        for (int i = 0; i < users.size(); i++) {
+            User u = users.get(i);
+            // Match by ID (Student or Tutor)
+            if (u instanceof Student && user instanceof Student && ((Student)u).getUserId().equals(((Student)user).getUserId())) {
+                users.set(i, user);
+                return saveData(USERS_FILE, users);
+            }
+            if (u instanceof Tutor && user instanceof Tutor && ((Tutor)u).getUserId().equals(((Tutor)user).getUserId())) {
+                users.set(i, user);
+                return saveData(USERS_FILE, users);
+            }
+        }
+        return false;
     }
     
     public boolean saveMessage(Message message) {
@@ -138,12 +179,48 @@ public class DataManager {
         return saveData(MESSAGES_FILE, messages);
     }
     
-    public boolean saveSubject(Subject subject) {
+    // New saveSubject method to add a subject if it doesn't exist
+    public boolean saveSubject(Subject s) {
+        // Check for duplicate ID
+        boolean exists = subjects.stream().anyMatch(sub -> sub.getSubjectId().equalsIgnoreCase(s.getSubjectId()));
+        if (exists) {
+            System.out.println("Duplicate subject ID prevented.");
+            return false;
+        }
+        
+        subjects.add(s);
+        return saveData(SUBJECTS_FILE, subjects);
+    }
+
+    // Existing updateSubject method (renamed from original saveSubject to avoid conflict)
+    public boolean updateSubject(Subject subject) {
         for (int i = 0; i < subjects.size(); i++) {
             if (subjects.get(i).getSubjectId().equals(subject.getSubjectId())) {
                 subjects.set(i, subject);
                 return saveData(SUBJECTS_FILE, subjects);
             }
+        }
+        return false;
+    }
+    
+    public boolean deleteSubject(String subjectId) {
+        // 1. Remove the subject
+        boolean removed = subjects.removeIf(s -> s.getSubjectId().equals(subjectId));
+        if (!removed) return false;
+        
+        // 2. Cascade delete: Remove all enrollments for this subject
+        enrollments.removeIf(e -> e.getSubjectId().equals(subjectId));
+        
+        // 3. Save changes
+        saveData(SUBJECTS_FILE, subjects);
+        saveData(ENROLLMENTS_FILE, enrollments);
+        return true;
+    }
+    
+    public boolean deleteEnrollment(String enrollmentId) {
+        boolean removed = enrollments.removeIf(e -> e.getEnrollmentId().equals(enrollmentId));
+        if (removed) {
+            return saveData(ENROLLMENTS_FILE, enrollments);
         }
         return false;
     }
@@ -164,7 +241,8 @@ public class DataManager {
         return users.stream()
                 .filter(u -> (u.getUsername().equalsIgnoreCase(username) || 
                              (u instanceof Student && ((Student)u).getUserId().equalsIgnoreCase(username)) ||
-                             (u instanceof Tutor && ((Tutor)u).getUserId().equalsIgnoreCase(username))) && 
+                             (u instanceof Tutor && ((Tutor)u).getUserId().equalsIgnoreCase(username)) ||
+                             (u instanceof Admin && ((Admin)u).getUserId().equalsIgnoreCase(username))) && 
                              u.getPassword().equals(password))
                 .findFirst().orElse(null);
     }
@@ -174,6 +252,10 @@ public class DataManager {
                 .filter(u -> (u instanceof Student && ((Student)u).getUserId().equals(id)) ||
                              (u instanceof Tutor && ((Tutor)u).getUserId().equals(id)))
                 .findFirst().orElse(null);
+    }
+    
+    public List<User> getUsers() {
+        return new ArrayList<>(users);
     }
 
     public List<Subject> getAllSubjects() {
@@ -195,9 +277,42 @@ public class DataManager {
 
     public double calculateTotalFees(String studentId) {
         return enrollments.stream()
-                .filter(e -> e.getStudentId().equals(studentId) && "Approved".equalsIgnoreCase(e.getStatus()))
+                .filter(e -> e.getStudentId().equals(studentId) && 
+                        ("Approved".equalsIgnoreCase(e.getStatus()) || "Active".equalsIgnoreCase(e.getStatus())))
                 .mapToDouble(Enrollment::calculateFee)
                 .sum();
+    }
+
+    public boolean checkTimeConflict(String studentId, Subject newSubject) {
+        List<Enrollment> studentEnrollments = getStudentEnrollments(studentId);
+        for (Enrollment e : studentEnrollments) {
+            // Only check against Active or Approved classes
+            if (!"Active".equalsIgnoreCase(e.getStatus()) && !"Approved".equalsIgnoreCase(e.getStatus())) {
+                continue;
+            }
+            
+            Subject existing = e.getSubject();
+            if (existing == null) continue;
+            
+            // Check day
+            int existingDay = e.getDayOfWeek() > 0 ? e.getDayOfWeek() : existing.getDayOfWeek();
+            int newDay = newSubject.getDayOfWeek();
+            
+            if (existingDay == newDay) {
+                // Check time overlap
+                int existingStart = e.getStartTime() > 0 ? e.getStartTime() : existing.getStartTime();
+                int existingEnd = existingStart + (e.getDuration() > 0 ? e.getDuration() : existing.getDuration());
+                
+                int newStart = newSubject.getStartTime();
+                int newEnd = newStart + newSubject.getDuration();
+                
+                // Overlap logic: (StartA < EndB) and (EndA > StartB)
+                if (existingStart < newEnd && existingEnd > newStart) {
+                    return true; // Conflict found
+                }
+            }
+        }
+        return false;
     }
 
     public List<Enrollment> getTutorRequests(String tutorId) {
@@ -220,7 +335,8 @@ public class DataManager {
                 .collect(Collectors.toList());
                 
         return enrollments.stream()
-                .filter(e -> tutorSubjectIds.contains(e.getSubjectId()) && "Approved".equalsIgnoreCase(e.getStatus()))
+                .filter(e -> tutorSubjectIds.contains(e.getSubjectId()) && 
+                        ("Approved".equalsIgnoreCase(e.getStatus()) || "Active".equalsIgnoreCase(e.getStatus())))
                 .collect(Collectors.toList());
     }
     
