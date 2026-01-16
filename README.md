@@ -12,10 +12,6 @@
 * **Data Management**
 
 * **Assignment 2- IMAN 2428591: GUI Implementation Report**
-   - Development Reflections and Challenges
-   - Interface Screenshots
-   - Data Persistence Layer (JSON Structure)
-
 
 
 ---
