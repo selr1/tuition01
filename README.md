@@ -14,7 +14,7 @@
   
 * [**Data Management**](#data-management)
 
-* [**Assignment 2- IMAN 2428591: GUI Implementation Report**](#assignment-2---iman-2428591-(tuition01/gui/))
+* [**Assignment 2- IMAN 2428591: GUI Implementation Report**](#assignment-2--iman-2428591-(tuition01/gui/))
  ```
 // I did the entire Repository & GUI implementation for this project
 ```
