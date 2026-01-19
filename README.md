@@ -12,9 +12,9 @@
 * [**Enrollment & Negotiation**](#enrollment-&-negotiation)
 * [**Core Classes**](#core-classes)
   
-* **Data Management**
+* [**Data Management**](#data-management)
 
-* **Assignment 2- IMAN 2428591: GUI Implementation Report**
+* [**Assignment 2- IMAN 2428591: GUI Implementation Report**](#Assignment-2---Iman-2428591-(tuition01/gui/))
  ```
 // I did the entire Repository & GUI implementation for this project
 ```
