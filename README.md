@@ -2,18 +2,21 @@
 ## Table of Contents
 
 * **Project Overview**
+    - [Key Features](#key-features)
 
 * **User Interface Showcase**
-
-* **Enrollment and Negotiation**
-
-* **Core Classes**
+    - [Authentication](#authentication)
+    - [Student Dashboard](#student-dashboard)
+    - [Tutor Dashboard](#tutor-dashboard)
+    - [Admin Dashboard](#admin-dashboard)
+* [**Enrollment & Negotiation**](#enrollment-&-negotiation)
+* [**Core Classes**](#core-classes)
   
 * **Data Management**
 
 * **Assignment 2- IMAN 2428591: GUI Implementation Report**
  ```
-// I did the entire GUI implementation for this project
+// I did the entire Repository & GUI implementation for this project
 ```
 
 ---
