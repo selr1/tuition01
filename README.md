@@ -12,7 +12,7 @@
 * **Data Management**
 
 * **Assignment 2- IMAN 2428591: GUI Implementation Report**
-
+( I did the entire GUI implementation for this project )
 
 ---
 
