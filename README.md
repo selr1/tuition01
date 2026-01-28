@@ -223,10 +223,12 @@ I also uses only 2 .json files as simple database for login credentials and time
 ### Screenshots
 
 ### Login
-![Screenshot 1](2026-01-04-230758_hyprshot.png)
+![Screenshot 1](Screenshots/login.png)
 
 ### Timetable
-![Screenshot 2](2026-01-04-230808_hyprshot.png)
+![Screenshot 2](Screenshots/s_timetable.png)
+
+![Tutor Timetable](Screenshots/t_schedule.png)
 
 ### .json
 
